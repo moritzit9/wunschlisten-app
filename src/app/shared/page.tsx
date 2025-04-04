@@ -1,8 +1,6 @@
-import dynamic from "next/dynamic";
+"use client"; // ← das ist jetzt erlaubt & nötig
 
-const SharedContent = dynamic(() => import("./sharedContent"), {
-  ssr: false, // 🚨 Verhindert Prerender-Fehler!
-});
+import SharedContent from "./sharedContent";
 
 export default function SharedPage() {
   return (
