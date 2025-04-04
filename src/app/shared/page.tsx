@@ -1,6 +1,7 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
 type Product = {
   name: string;
@@ -12,17 +13,21 @@ type Product = {
 
 export default function SharedPage() {
   const params = useSearchParams();
-  const data = params.get("data");
-  let products: Product[] = [];
+  const [products, setProducts] = useState<Product[]>([]);
 
-  try {
+  useEffect(() => {
+    const data = params.get("data");
     if (data) {
-      products = JSON.parse(atob(data));
+      try {
+        const decoded = JSON.parse(atob(data));
+        if (Array.isArray(decoded)) {
+          setProducts(decoded);
+        }
+      } catch (err) {
+        console.error("Fehler beim Dekodieren der Wunschliste", err);
+      }
     }
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  } catch (e) {
-    console.error("Fehler beim Parsen der geteilten Wunschliste.");
-  }
+  }, [params]);
 
   return (
     <main className="min-h-screen bg-gray-100 p-6">
