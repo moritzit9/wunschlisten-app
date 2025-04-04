@@ -9,6 +9,7 @@ type Product = {
   link: string;
   image: string;
 };
+type ProductField = keyof Product;
 
 export default function CreatePage() {
   const [wishlists, setWishlists] = useState<Record<string, Product[]>>({});
@@ -90,17 +91,19 @@ export default function CreatePage() {
 
         {/* ➕ Produkt hinzufügen */}
         <form onSubmit={addProduct} className="space-y-4">
-          {["name", "color", "size", "link", "image"].map((field) => (
-            <input
-              key={field}
-              name={field}
-              value={(form as any)[field]}
-              onChange={handleChange}
-              placeholder={field === "name" ? "Produktname" : field}
-              className="w-full border rounded-md p-2 placeholder-neutral-500"
-              required={field === "name"}
-            />
-          ))}
+          {(["name", "color", "size", "link", "image"] as ProductField[]).map(
+            (field) => (
+              <input
+                key={field}
+                name={field}
+                value={form[field]}
+                onChange={handleChange}
+                placeholder={field === "name" ? "Produktname" : field}
+                className="w-full border rounded-md p-2 placeholder-neutral-500"
+                required={field === "name"}
+              />
+            )
+          )}
           <button
             type="submit"
             className="bg-purple-600 text-white font-semibold px-4 py-2 rounded-md hover:bg-purple-700 transition"

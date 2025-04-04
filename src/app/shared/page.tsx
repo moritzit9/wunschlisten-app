@@ -19,6 +19,7 @@ export default function SharedPage() {
     if (data) {
       products = JSON.parse(atob(data));
     }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (e) {
     console.error("Fehler beim Parsen der geteilten Wunschliste.");
   }
